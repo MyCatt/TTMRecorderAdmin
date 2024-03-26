@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter , Routes, Route } from "react-router-dom";
 import './style/app.css';
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
@@ -10,21 +10,24 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+TimeAgo.addDefaultLocale(en)
 
 function App() {
   return (
     <div className="app">
-          <BrowserRouter>
+          <HashRouter>
             <AuthProvider>
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route element={<PrivateRoute />}>
-                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/" element={<Dashboard />} />
                 </Route>
                 {/* Other routes */}
               </Routes>
             </AuthProvider>
-          </BrowserRouter>
+          </HashRouter >
     </div>
   );
 }

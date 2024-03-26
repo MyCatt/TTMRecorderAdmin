@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
         setUser(res.user);
         setToken(res["access_token"]);
         localStorage.setItem("site", res["access_token"]);
-        navigate("/dashboard");
+        navigate("/");
         return;
       }
       throw new Error(res.message);

@@ -10,6 +10,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import ReactTimeAgo from 'react-time-ago'
+
+
 
 const Dashboard = () => {
 
@@ -101,7 +104,7 @@ const Dashboard = () => {
                         <a target="_blank" href={"https://app.thetestmart.com/recordings/" + row.timestamp + "?org=" + row.company}>{row.name}</a>
                       </TableCell>
                       <TableCell style={{borderRight: '1px solid #f3f3f3'}} align="right">{row.status ? row.status : "--"}</TableCell>
-                      <TableCell style={{borderRight: '1px solid #f3f3f3'}} align="right">{row.timestamp}</TableCell>
+                      <TableCell style={{borderRight: '1px solid #f3f3f3'}} align="right">{row.timestamp ? <ReactTimeAgo date={new Date(row.timestamp * 1000)} locale="en-US"/> : "--"}</TableCell>
                       <TableCell style={{borderRight: '1px solid #f3f3f3'}} align="right">{row.author ? row.author : "--"}</TableCell>
                     </TableRow>
                   )})
