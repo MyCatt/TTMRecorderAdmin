@@ -1,0 +1,44 @@
+body
+{
+    background: #dee3eb;
+}
+
+#loginWrap
+{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 100px;
+    form
+    {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        background: #fff;
+    
+        label
+        {
+            display: flex;
+        }
+    
+        input
+        {
+            width: 250px;
+            height: 40px;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+        button
+        {
+            height: 40px;
+            border: 0;
+            font-weight: bold;
+        }
+    }
+}
+

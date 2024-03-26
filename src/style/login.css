@@ -1,0 +1,35 @@
+body {
+  background: #dee3eb;
+}
+
+#loginWrap {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px;
+}
+#loginWrap form {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background: #fff;
+}
+#loginWrap form label {
+  display: flex;
+}
+#loginWrap form input {
+  width: 250px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+#loginWrap form button {
+  height: 40px;
+  border: 0;
+  font-weight: bold;
+}/*# sourceMappingURL=login.css.map */
