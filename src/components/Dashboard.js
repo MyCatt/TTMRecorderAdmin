@@ -12,11 +12,24 @@ import Paper from '@mui/material/Paper';
 
 import ReactTimeAgo from 'react-time-ago'
 
+import { useNavigate } from "react-router-dom";
+
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+
 
 
 const Dashboard = () => {
 
   const [company, setCompany] = useState([]);
+  const [companyDropdown, setCompanyDropdown] = useState([]);
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    localStorage.removeItem("site");
+    navigate("/login");
+  };
+
 
   const fetchOrganisations = async () => {
       const token = localStorage.getItem("site");
@@ -39,12 +52,19 @@ const Dashboard = () => {
 
         return Promise.all(recordingPromise).then((d) => {
           if(d.length > 0)
+          {
             setCompany(d);
+            const orgs = Object.values(company).filter(c => c.length > 0 );
+            const final = Object.values(orgs).map(c => ({ "label": c[0].company } ));
+            setCompanyDropdown(final);
+            console.log(final)
+          }
         });
       }
       throw new Error(res.message);
     } catch (err) {
       console.error(err);
+      logOut();
     }
   }
 
@@ -68,19 +88,33 @@ const Dashboard = () => {
       }
       throw new Error(res.message);
     } catch (err) {
-      console.error(err);
+      console.error(err); // logOut
+      logOut();
     }
   }
 
   useEffect(() => {
     // Update the document title using the browser API
     fetchOrganisations();
-    console.log(company)
+
   }, []);
 
 
   const renderOrgs = () => { 
-        return ( <TableContainer style={{marginBottom: 20}} component={Paper}>
+        return ( 
+        <div>
+          <div>
+            <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={
+                 companyDropdown
+                }
+                sx={{ width: 300, backgroundColor: "#fff" }}
+                renderInput={(params) => <TextField {...params} label="Origanisation" />}
+            />
+          </div>
+          <TableContainer style={{marginBottom: 20}} component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="List of tests">
               <TableHead>
                 <TableRow>
@@ -113,6 +147,7 @@ const Dashboard = () => {
               </TableBody>
             </Table>
         </TableContainer>
+      </div>
     )
   }
 
