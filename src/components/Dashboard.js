@@ -21,7 +21,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 const Dashboard = () => {
 
-  const [company, setCompany] = useState([]);
+  const [recordings, setRecordings] = useState([]);
   const [companyDropdown, setCompanyDropdown] = useState([]);
   const navigate = useNavigate();
 
@@ -46,18 +46,17 @@ const Dashboard = () => {
       if (res.user) {
         // setCompany(res.user.company);
         let list = res.user.company;
-        setCompany(list);
+        setRecordings(list);
+
+        let companyList = Object.values(list).map(org => org.company);
+        setCompanyDropdown(companyList)
 
         const recordingPromise = Object.values(list).map(org => fetchRecordings(org.company));
 
         return Promise.all(recordingPromise).then((d) => {
           if(d.length > 0)
           {
-            setCompany(d);
-            const orgs = Object.values(company).filter(c => c.length > 0 );
-            const final = Object.values(orgs).map(c => ({ "label": c[0].company } ));
-            setCompanyDropdown(final);
-            console.log(final)
+            setRecordings(d);
           }
         });
       }
@@ -106,11 +105,12 @@ const Dashboard = () => {
           <div>
             <Autocomplete
                 disablePortal
+                multiple 
                 id="combo-box-demo"
                 options={
                  companyDropdown
                 }
-                sx={{ width: 300, backgroundColor: "#fff" }}
+                sx={{display: "none", width: 300, backgroundColor: "#fff", marginBottom: "20px" }}
                 renderInput={(params) => <TextField {...params} label="Origanisation" />}
             />
           </div>
@@ -127,7 +127,7 @@ const Dashboard = () => {
               </TableHead>
               <TableBody>
                 {
-                  Object.values(company).map((orgs) => { 
+                  Object.values(recordings).map((orgs) => { 
                   return Object.values(orgs).map((row, i) => { return (
                     <TableRow
                       key={row.timestamp}
