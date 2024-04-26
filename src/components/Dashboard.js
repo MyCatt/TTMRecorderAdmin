@@ -128,7 +128,7 @@ const Dashboard = () => {
               <TableBody>
                 {
                   Object.values(recordings).map((orgs) => { 
-                  return Object.values(orgs).map((row, i) => { return (
+                  return Object.values((Object.values(orgs).filter(o => o.status === "Submitted"))).map((row, i) => { return (
                     <TableRow
                       key={row.timestamp}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
