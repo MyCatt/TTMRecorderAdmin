@@ -92,6 +92,37 @@ const Dashboard = () => {
     }
   }
 
+  const deleteRecording = async (name, timestamp, company) => {
+    const token = localStorage.getItem("site");
+    if(!window.confirm(`Are you sure you want to delete recording '${name}' for '${company}'? `))
+      return;
+
+    console.log(token)
+
+    try {
+      console.log({"company": company, "recordingId": timestamp})
+      const response = await fetch("https://api-testmart.app.thetestmart.com/library/delete_recorder_json_data/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({"company": company, "recordingId": `${timestamp}`}),
+      });
+      const res = await response.json();
+      if (res.data) {
+        let resp = res.data;
+        console.log(resp);
+        return resp;
+      }
+      throw new Error(res.message);
+    } catch (err) {
+      console.error(err); // logOut
+      // logOut();
+    }
+
+  }
+
   useEffect(() => {
     // Update the document title using the browser API
     fetchOrganisations();
@@ -123,6 +154,7 @@ const Dashboard = () => {
                   <TableCell style={{borderRight: '1px solid #f3f3f3', width: 100}} align="right">Status</TableCell>
                   <TableCell style={{borderRight: '1px solid #f3f3f3', width: 100}} align="right">Submitted</TableCell>
                   <TableCell style={{borderRight: '1px solid #f3f3f3', width: 100}} align="right">Author</TableCell>
+                  <TableCell style={{borderRight: '1px solid #f3f3f3', width: 100}} align="right">Options</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -140,6 +172,7 @@ const Dashboard = () => {
                       <TableCell style={{borderRight: '1px solid #f3f3f3'}} align="right">{row.status ? row.status : "--"}</TableCell>
                       <TableCell style={{borderRight: '1px solid #f3f3f3'}} align="right">{row.timestamp ? <ReactTimeAgo date={new Date(row.timestamp * 1000)} locale="en-US"/> : "--"}</TableCell>
                       <TableCell style={{borderRight: '1px solid #f3f3f3'}} align="right">{row.author ? row.author : "--"}</TableCell>
+                      <TableCell style={{borderRight: '1px solid #f3f3f3'}} align="right"><button onClick={() => deleteRecording(row.name, row.timestamp, row.company)}>Delete</button></TableCell>
                     </TableRow>
                   )})
                   })
